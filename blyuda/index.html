@@ -18,16 +18,18 @@ body{background:#fff;font-family:'Roboto Condensed',Arial,sans-serif;color:#152B
   font-family:'Rubik',Arial,sans-serif;font-weight:500;font-size:13px;
   letter-spacing:.1em;text-transform:uppercase;color:#152B4F;
   border-bottom:1px solid #152B4F}
- .km-page{position:relative;width:100%;height:calc(100vw*16/9);overflow:hidden}
- .km-page img{position:absolute;top:50%;left:50%;width:calc(100vw*16/9);
+ /* считаем от ширины контейнера, а не окна: внутри Тильды блок лежит
+    в своей колонке с отступами, и расчёт по 100vw вылез бы за края */
+ .km-page{position:relative;width:100%;aspect-ratio:9/16;overflow:hidden}
+ .km-page img{position:absolute;top:50%;left:50%;width:177.78%;
   transform:translate(-50%,-50%) rotate(90deg)}
  /* полоса кнопок — такая же страница: лежит боком вместе с каталогом,
     иначе телефон пришлось бы поворачивать обратно ради трёх ссылок */
- .km-low{position:relative;width:100%;height:calc(100vw*16/9);
+ .km-low{position:relative;width:100%;aspect-ratio:9/16;
   overflow:hidden;padding:0}
- .km-low-in{position:absolute;top:50%;left:50%;width:calc(100vw*16/9);
-  height:100vw;display:flex;flex-direction:column;justify-content:center;
-  padding:0 7vw;transform:translate(-50%,-50%) rotate(90deg)}
+ .km-low-in{position:absolute;top:50%;left:50%;width:177.78%;
+  height:56.25%;display:flex;flex-direction:column;justify-content:center;
+  padding:0 7%;transform:translate(-50%,-50%) rotate(90deg)}
  /* вполовину короче: на длинной стороне экрана полоса во всю ширину
     выглядит плакатом, а не кнопкой */
  .km-low-in .km-bar{width:50%;margin-left:0;margin-right:auto}
