@@ -50,7 +50,32 @@
 <div class="km-page"><img src="https://saumaldesign.github.io/kamei-catalog/blyuda/p/16.webp" alt="KaMei — сублимированные блюда, страница 16" loading="lazy"></div>
 <div class="km-page"><img src="https://saumaldesign.github.io/kamei-catalog/blyuda/p/17.webp" alt="KaMei — сублимированные блюда, страница 17" loading="lazy"></div>
 <div class="km-low"><div class="km-low-in">
-<a class="km-bar" href="https://saumaldesign.github.io/kamei-catalog/blyuda/blyuda.pdf" download>Скачать PDF</a>
+<a class="km-bar km-pdf" href="https://saumaldesign.github.io/kamei-catalog/blyuda/blyuda.pdf" data-imya="blyuda.pdf">Скачать PDF</a>
 <a class="km-bar" href="https://kamei-map.tilda.ws/" target="_blank" rel="noopener">Где купить</a>
 <a class="km-bar" href="https://wa.me/77008111888?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%BC%D0%B5%D0%BD%D1%8F%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%86%D0%B8%D1%8F%20KaMei" target="_blank" rel="noopener">Написать в WhatsApp</a>
 </div></div></div>
+<script>
+/* Файл забираем в фоне и отдаём браузеру готовым куском: атрибут
+   download на чужом домене браузеры не слушают и вместо сохранения
+   открывают PDF, показывая адрес хранилища. Так человек остаётся на
+   нашей странице, а файл просто падает в «Загрузки». */
+document.querySelectorAll('.km-pdf').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (a.dataset.busy) return;
+    a.dataset.busy = '1';
+    var было = a.textContent;
+    a.textContent = 'Готовим файл…';
+    fetch(a.href).then(function (r) { return r.blob(); }).then(function (b) {
+      var u = URL.createObjectURL(b), l = document.createElement('a');
+      l.href = u; l.download = a.dataset.imya;
+      document.body.appendChild(l); l.click(); l.remove();
+      setTimeout(function () { URL.revokeObjectURL(u); }, 10000);
+      a.textContent = было; delete a.dataset.busy;
+    }).catch(function () {
+      a.textContent = было; delete a.dataset.busy;
+      window.open(a.href, '_blank');
+    });
+  });
+});
+</script>
