@@ -93,10 +93,11 @@ document.querySelectorAll('.km-pdf').forEach(function (a) {
       l.href = u; l.download = a.dataset.imya;
       document.body.appendChild(l); l.click(); l.remove();
       setTimeout(function () { URL.revokeObjectURL(u); }, 10000);
-      a.textContent = 'Файл сохранён';
-      setTimeout(function () {
-        a.textContent = было; a.style.opacity = ''; delete a.dataset.busy;
-      }, 4000);
+      /* надпись не возвращаем: «файл скачан» — это ответ на вопрос
+         «получилось ли», и он должен остаться на экране. Нажать ещё
+         раз всё равно можно, блокировку снимаем. */
+      a.textContent = 'Файл скачан';
+      a.style.opacity = ''; delete a.dataset.busy;
     }).catch(function () {
       a.textContent = было; a.style.opacity = ''; delete a.dataset.busy;
       window.open(a.href, '_blank');
